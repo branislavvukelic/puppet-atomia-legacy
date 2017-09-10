@@ -1,0 +1,12 @@
+* text eol=lf
+
+#templates/* text eol=lf
+#files/* text eol=lf
+
+*.reg text eol=crlf
+
+*.msu binary
+*.msi binary
+*.tar.gz binary
+*.exe binary
+*.deb binary

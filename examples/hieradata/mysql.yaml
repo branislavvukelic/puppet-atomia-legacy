@@ -1,0 +1,10 @@
+# mysql.yaml
+# Defines all classes and variables needed to deploy
+# the mysql node
+---
+classes:
+  - atomia::mysql
+
+atomia::mysql::mysql_username: "mysqladmin"
+atomia::mysql::mysql_password: "SeriousPa55"
+atomia::mysql::provisioning_host: "192.0.2.103"

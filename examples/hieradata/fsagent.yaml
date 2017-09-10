@@ -1,0 +1,12 @@
+# fsagent.yaml
+# Defines classes and variables needed to deploy file system agent
+# Update file with valid values
+---
+classes:
+  - atomia::adjoin
+  - atomia::fsagent
+  - atomia::service_files
+
+atomia::fsagent::username: "fsagent"
+atomia::fsagent::password: "SeriousPa55"
+atomia::fsagent::content_share_nfs_location: "storage01.atomia.local:/gv0"

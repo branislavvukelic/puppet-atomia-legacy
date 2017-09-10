@@ -1,0 +1,66 @@
+<% $hierapath = "/etc/puppet/hieradata" %>
+<% $modulepath = "/etc/puppet/modules/atomia/manifests" %>
+<% $lookup_var     = "/etc/puppet/modules/atomia/files/lookup_variable.sh" %>
+<% $hcp_url = "https://" + IO.popen("#{$lookup_var} windows_base hcp #{$hierapath} #{$modulepath}").read.gsub(/\n/,'').gsub(/\r/,'') + "." + IO.popen("#{$lookup_var} windows_base appdomain #{$hierapath} #{$modulepath}").read.gsub(/\n/,'').gsub(/\r/,'') %>
+###############################################################################
+# COMMANDS.CFG - COMMAND DEFINITIONS FOR NAGIOS
+###############################################################################
+
+
+
+
+
+################################################################################
+# HOST CHECK COMMANDS
+################################################################################
+
+define command {
+        command_name    check_http_testsite
+        command_line    $USER1$/check_http -H atomia-nagios-test.net
+}
+
+define command {
+	command_name	check_hcp
+	command_line	$USER1$/atomia/check_hcp_login.pl --uri "<%= $hcp_url %>/100000" --user $ARG1$ --pass $ARG2$ --timeout 60 --match "Quick guide"
+}
+
+define command {
+	command_name	check_atomiadns
+	command_line	$USER1$/atomia/check_atomiadns.sh $ARG1$ $ARG2$ $ARG3$
+}
+
+define command {
+	command_name	check_domainreg
+	command_line	$USER1$/atomia/check_domainreg.sh $ARG1$
+}
+
+define command {
+	command_name	check_fsagent
+	command_line	$USER1$/atomia/check_fsagent.sh $ARG1$ $ARG2$ $ARG3$ $ARG4$
+}
+
+define command{
+        command_name    check_local_procs_all_states
+        command_line    $USER1$/check_procs -w $ARG1$ -c $ARG2$
+}
+
+define command {
+	command_name	check_mountpoints
+	command_line	$USER1$/atomia/check_mountpoints.sh $ARG1$
+}
+
+define command {
+	command_name	check_dig
+	command_line	$USER1$/check_dig -H $ARG1$ -l $ARG2$ -A $ARG3$
+}
+
+
+define command {
+       command_name                             check_nrpe
+       command_line                             $USER1$/check_nrpe -H $HOSTADDRESS$ -t 30 -c $ARG1$ $ARG2$
+}
+
+define command {
+       command_name                             check_nrpe_1arg
+       command_line                             $USER1$/check_nrpe -H $HOSTADDRESS$ -t 30 -c $ARG1$ -a $ARG2$ $ARG3$ $ARG4$
+}

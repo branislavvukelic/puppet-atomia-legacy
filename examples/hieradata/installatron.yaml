@@ -1,0 +1,7 @@
+# installatron.yaml
+# Deploy and configure Installatron
+---
+classes:
+  - atomia::installatron
+
+atomia::installatron::content_share_nfs_location: "storage01.atomia.local:/gv0"

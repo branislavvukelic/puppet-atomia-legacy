@@ -1,0 +1,12 @@
+spec/fixtures/
+*.bundle
+*.key
+*.csr
+*.pfx
+*.crt
+*.crl
+metadata.json
+/metadata.json
+/metadata.json
+/metadata.json
+/metadata.json

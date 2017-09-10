@@ -1,0 +1,23 @@
+<% require 'yaml' %>
+<% server_ips = YAML::parse(IO.popen("#{@lookup_var} mssql server_ips #{@hierapath} #{@modulepath}").read.gsub(/\n/,'').gsub(/\r/,'').to_s) %>
+<resourceDescription xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <bindings xdt:Locator="XPath(//bindings[moduleList/module/@name='Atomia.Provisioning.Modules.MSSQL.MSSQL'])">
+    <resourceList>
+<% server_ips.each do |v| %>
+    <% if defined? v.value  %>
+        <% if v.value != "" %>
+      <resource name="MSSQL<%= v.value %>" xdt:Transform="Insert">
+        <property name="DatabaseServer"><%= v.value %></property>
+        <property name="PublicIpAddress"><%= v.value %></property>
+        <property name="User"><%= IO.popen("#{@lookup_var} mssql mssql_username #{@hierapath} #{@modulepath}").read.gsub(/\n/,'').gsub(/\r/,'') %></property>
+        <property name="Password"><%= IO.popen("#{@lookup_var} mssql mssql_password #{@hierapath} #{@modulepath}").read.gsub(/\n/,'').gsub(/\r/,'') %></property>
+        <property name="InitialCatalog">master</property>
+        <property name="AdminIpAddress"><%= v.value %></property>      
+      </resource>
+        <% end %>
+     <% end %>    
+<% end %>
+    </resourceList>
+  </bindings>
+</resourceDescription>
+
